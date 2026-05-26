@@ -56,3 +56,68 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Flujo autenticación JWT
+
+# Login
+
+Endpoint: 
+
+POST /api/auth/login
+
+Body:
+
+{
+  "email": "admin@example.com",
+  "password": "password"
+}
+
+Respuesta:
+
+{
+  "access_token": "TOKEN",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+
+# Flujo autenticación JWT
+
+Añadir cabecera: 
+
+Authorization: Bearer TOKEN
+
+# Obtener el usuario autenticado
+
+GET /api/auth/me
+
+# Refrescar token
+
+POST /api/auth/refresh
+
+# Logout
+
+POST /api/auth/logout
+
+El token queda invalidado y no puede reutilizarse.
+
+## Ejemplos
+
+Login:
+
+curl -X POST http://127.0.0.1:8000/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email":"admin@example.com",
+  "password":"password"
+}'
+
+Acceso autenticado:
+
+curl -X GET http://127.0.0.1:8000/api/auth/me \
+-H "Authorization: Bearer TU_TOKEN"
+
+Logout:
+
+curl -X POST http://127.0.0.1:8000/api/auth/logout \
+-H "Authorization: Bearer TU_TOKEN"

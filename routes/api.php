@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\MovieController;
+
+Route::prefix('auth')->group(function () {
+
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:api')->group(function () {
+
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+        Route::get('/me', [AuthController::class, 'me']);
+
+    });
+
+    Route::middleware('auth:api')->group(function () {
+        Route::apiResource('directors', DirectorController::class);
+    });
+
+    Route::middleware('auth:api')->prefix('auth')->group(function () {
+        Route::apiResource('movies', MovieController::class);
+    });
+
+});

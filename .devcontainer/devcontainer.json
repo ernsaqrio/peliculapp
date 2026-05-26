@@ -1,0 +1,27 @@
+{
+  "name": "PeliculApp Laravel DevContainer",
+
+  "image": "mcr.microsoft.com/devcontainers/php:1-8.4-bookworm",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+
+  "postCreateCommand": "composer install && cp .env.example .env || true && touch database/database.sqlite && php artisan key:generate && php artisan jwt:secret --force",
+
+  "forwardPorts": [8000],
+
+  "remoteEnv": {
+    "APP_ENV": "local",
+    "APP_DEBUG": "true",
+    "DB_CONNECTION": "sqlite",
+    "DB_DATABASE": "database/database.sqlite"
+  }
+}
