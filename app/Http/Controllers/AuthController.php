@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-
 class AuthController extends Controller
 {
-
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -20,15 +18,15 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Errores de validación',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $credentials = $request->only('email', 'password');
 
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
+        if (! $token = Auth::guard('api')->attempt($credentials)) {
             return response()->json([
-                'message' => 'Credenciales inválidas'
+                'message' => 'Credenciales inválidas',
             ], 401);
         }
 
@@ -49,7 +47,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'No se pudo refrescar el token'
+                'message' => 'No se pudo refrescar el token',
             ], 401);
         }
     }
@@ -60,12 +58,12 @@ class AuthController extends Controller
             Auth::guard('api')->logout();
 
             return response()->json([
-                'message' => 'Logged out'
+                'message' => 'Logged out',
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Error al cerrar sesión'
+                'message' => 'Error al cerrar sesión',
             ], 500);
         }
     }
@@ -75,8 +73,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
+            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
         ]);
     }
 }
-

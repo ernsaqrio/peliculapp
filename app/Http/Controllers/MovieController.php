@@ -29,7 +29,7 @@ class MovieController extends Controller
             'sinopsis' => 'required|string',
             'duration' => 'required|integer',
             'gendre' => 'required|string|max:255',
-            'director_id' => 'required|exists:directors,id'
+            'director_id' => 'required|exists:directors,id',
         ]);
 
         $movie = Movie::create($validated);
@@ -69,7 +69,7 @@ class MovieController extends Controller
         $movie->delete();
 
         return response()->json([
-            'message' => 'Movie deleted successfully'
+            'message' => 'Movie deleted successfully',
         ], 200);
     }
 }

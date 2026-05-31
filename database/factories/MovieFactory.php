@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Director;
+use App\Models\Movie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Movie>
+ * @extends Factory<Movie>
  */
 class MovieFactory extends Factory
 {
@@ -21,9 +22,9 @@ class MovieFactory extends Factory
                 'Action',
                 'Drama',
                 'Comedy',
-                'Sci-Fi'
+                'Sci-Fi',
             ]),
-            'director_id' => Director::factory()
+            'director_id' => Director::factory(),
         ];
     }
 }

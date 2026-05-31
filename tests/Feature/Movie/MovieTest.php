@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Movie;
 
-use App\Models\User;
-use App\Models\Movie;
 use App\Models\Director;
+use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -55,7 +55,7 @@ class MovieTest extends TestCase
             'sinopsis' => 'Viaje espacial épico',
             'duration' => 169,
             'gendre' => 'Sci-Fi',
-            'director_id' => $director->id
+            'director_id' => $director->id,
         ];
 
         $response = $this
@@ -67,7 +67,7 @@ class MovieTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('movies', [
-            'title' => 'Interstellar'
+            'title' => 'Interstellar',
         ]);
     }
 
@@ -105,7 +105,7 @@ class MovieTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $movie->id
+                'id' => $movie->id,
             ]);
     }
 
@@ -123,14 +123,14 @@ class MovieTest extends TestCase
                 'Authorization',
                 'Bearer '.$token
             )->putJson('/api/auth/auth/movies/'.$movie->id, [
-                'title' => 'Updated Movie'
+                'title' => 'Updated Movie',
             ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('movies', [
             'id' => $movie->id,
-            'title' => 'Updated Movie'
+            'title' => 'Updated Movie',
         ]);
     }
 
@@ -152,7 +152,7 @@ class MovieTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('movies', [
-            'id' => $movie->id
+            'id' => $movie->id,
         ]);
     }
 

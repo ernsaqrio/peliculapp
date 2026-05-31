@@ -40,7 +40,7 @@ return [
     */
 
     'guards' => [
-        /*'web' => 
+        /*'web' =>
             'driver' => 'session',
             'provider' => 'users',
         ],

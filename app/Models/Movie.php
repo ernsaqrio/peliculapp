@@ -15,7 +15,7 @@ class Movie extends Model
         'sinopsis',
         'duration',
         'gendre',
-        'director_id'
+        'director_id',
     ];
 
     public function director()

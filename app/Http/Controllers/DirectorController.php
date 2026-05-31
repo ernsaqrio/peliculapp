@@ -48,7 +48,7 @@ class DirectorController extends Controller
         $director->delete();
 
         return response()->json([
-            'message' => 'Director deleted'
+            'message' => 'Director deleted',
         ], 200);
     }
 }

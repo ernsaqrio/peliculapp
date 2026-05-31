@@ -5,10 +5,8 @@ namespace Tests\Feature\Security;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Facades\JWTFactory;
 
 class SecurityTest extends TestCase
 {
@@ -23,11 +21,10 @@ class SecurityTest extends TestCase
 
         $token = JWTAuth::fromUser($user);
 
-    
         JWTAuth::invalidate(JWTAuth::setToken($token));
 
         $response = $this->withHeaders([
-            'Authorization' => "Bearer $token"
+            'Authorization' => "Bearer $token",
         ])->getJson('/api/auth/me');
 
         $response->assertStatus(401);
@@ -59,13 +56,13 @@ class SecurityTest extends TestCase
     public function test_password_no_aparece_en_respuesta_me()
     {
         $user = User::factory()->create([
-            'password' => Hash::make('secret123')
+            'password' => Hash::make('secret123'),
         ]);
 
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeaders([
-            'Authorization' => "Bearer $token"
+            'Authorization' => "Bearer $token",
         ])->getJson('/api/auth/me');
 
         $response->assertStatus(200);

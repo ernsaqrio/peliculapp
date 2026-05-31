@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Director;
 
-use App\Models\User;
 use App\Models\Director;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -45,7 +45,7 @@ class DirectorTest extends TestCase
         $data = [
             'name' => 'Christopher',
             'surname' => 'Nolan',
-            'birthdate' => '1970-07-30'
+            'birthdate' => '1970-07-30',
         ];
 
         $response = $this->withHeader(
@@ -56,7 +56,7 @@ class DirectorTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('directors', [
-            'name' => 'Christopher'
+            'name' => 'Christopher',
         ]);
     }
 
@@ -92,7 +92,7 @@ class DirectorTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonFragment([
-                'id' => $director->id
+                'id' => $director->id,
             ]);
     }
 
@@ -109,14 +109,14 @@ class DirectorTest extends TestCase
             'Authorization',
             'Bearer '.$token
         )->putJson('/api/auth/directors/'.$director->id, [
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('directors', [
             'id' => $director->id,
-            'name' => 'Updated'
+            'name' => 'Updated',
         ]);
     }
 
@@ -137,7 +137,7 @@ class DirectorTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('directors', [
-            'id' => $director->id
+            'id' => $director->id,
         ]);
     }
 
