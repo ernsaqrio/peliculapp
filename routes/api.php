@@ -5,6 +5,12 @@ use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok'
+    ]);
+});
+
 Route::prefix('auth')->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
