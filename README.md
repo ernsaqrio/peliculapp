@@ -121,3 +121,5 @@ Logout:
 
 curl -X POST http://127.0.0.1:8000/api/auth/logout \
 -H "Authorization: Bearer TU_TOKEN"
+
+Tenemos CI/CD funcionando correctamente.
