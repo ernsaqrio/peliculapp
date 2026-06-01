@@ -1,0 +1,63 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  docker-publish:
+    name: Build, Test and Publish Docker Image
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t $IMAGE_NAME:${{ github.sha }} \
+            -t $IMAGE_NAME:latest \
+            .
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name peliculapp-test \
+            -p 8000:8000 \
+            -e APP_KEY="${{ secrets.APP_KEY }}" \
+            -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+            $IMAGE_NAME:${{ github.sha }}
+
+      - name: Wait for application startup
+        run: sleep 20
+
+      - name: Smoke Test
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+
+          echo "Status: $STATUS"
+
+          if [ "$STATUS" != "200" ] && [ "$STATUS" != "302" ] && [ "$STATUS" != "404" ]; then
+            exit 1
+          fi
+
+      - name: Push image to GHCR
+        run: |
+          docker push $IMAGE_NAME:${{ github.sha }}
+          docker push $IMAGE_NAME:latest
